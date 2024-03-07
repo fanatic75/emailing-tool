@@ -3,14 +3,12 @@ export default function config() {
     db: {
       url: process.env.DATABASE_URL,
     },
-    db1: {
-      url: process.env.DB1_URL,
-    },
-    db2: {
-      url: process.env.DB2_URL,
-    },
     cache: {
       url: process.env.CACHE_URL,
+    },
+    mailer: {
+      host: process.env.MAILER_HOST,
+      port: process.env.MAILER_PORT,
     },
   };
 }

@@ -1,11 +1,18 @@
 import 'dotenv/config';
-import { serial, varchar, pgSchema } from 'drizzle-orm/pg-core';
+import { serial, varchar, pgSchema, integer } from 'drizzle-orm/pg-core';
 export const myschema = pgSchema('data');
 
-export const user = myschema.table('user', {
+export const sender = myschema.table('senders', {
   id: serial('id').primaryKey(),
-  name: varchar('name', { length: 256 }),
+  fromName: varchar('fromName', { length: 256 }).notNull(),
+  fromEmail: varchar('fromEmail', { length: 256 }).notNull(),
+  replyTo: varchar('replyTo', { length: 256 }),
+  messagePerDay: integer('messagePerDay').notNull().default(1),
+  userName: varchar('userName', { length: 256 }).notNull(),
+  password: varchar('password', { length: 256 }).notNull(),
+  smtpHost: varchar('smtpHost', { length: 256 }).notNull(),
+  smtpPort: integer('smtpPort').notNull(),
 });
 
-export type User = typeof user.$inferSelect; // return type when queried
-export type NewUser = typeof user.$inferInsert; // insert type
+export type Sender = typeof sender.$inferSelect; // return type when queried
+export type NewSender = typeof sender.$inferInsert; // insert type

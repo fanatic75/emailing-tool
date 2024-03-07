@@ -1,4 +1,4 @@
-FROM node:lts-alpine3.19 AS development
+FROM node:lts-alpine3.19
 
 WORKDIR /usr/src/app
 
@@ -12,41 +12,10 @@ COPY ./pnpm-lock.yaml /usr/src/app/
 RUN npm i -g pnpm tsx 
 RUN pnpm install
 
-COPY . /usr/src/app/
+COPY . .
 
-RUN pnpm drizzle-kit generate:pg
-
-# Build the app to the /dist folder
 RUN pnpm run build
 
-################
-## PRODUCTION ##
-################
-# Build another image named production
-FROM node:lts-alpine3.19 AS production
+RUN ["chmod", "+x", "/usr/src/app/entrypoint.sh"]
 
-# Set node env to prod
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
-
-RUN npm i -g pnpm
-
-
-# Set Working Directory
-WORKDIR /usr/src/app
-
-COPY package.json pnpm-lock.yaml ./
-
-COPY drizzle .
-
-RUN pnpm install --prod --frozen-lockfile --strict-peer-dependencies --reporter append-only --unsafe-perm
-RUN chown -R node:node ./node_modules
-COPY --chown=node:node . .
-
-COPY --chown=node:node --from=development /usr/src/app/dist ./dist
-
-USER node
-
-
-# Run app
-CMD [ "node", "dist/main" ]
+ENTRYPOINT ["/usr/src/app/entrypoint.sh"]

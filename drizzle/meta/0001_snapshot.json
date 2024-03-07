@@ -1,6 +1,6 @@
 {
-  "id": "e9c09755-4c72-42c4-947e-edc183e67675",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "eea14ad2-23fc-40c8-8e0b-a0411bcda28e",
+  "prevId": "e9c09755-4c72-42c4-947e-edc183e67675",
   "version": "5",
   "dialect": "pg",
   "tables": {
@@ -59,7 +59,7 @@
         },
         "smtpPort": {
           "name": "smtpPort",
-          "type": "varchar(256)",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true
         }
